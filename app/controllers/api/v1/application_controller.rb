@@ -1,12 +1,7 @@
-class ApplicationController < ActionController::API
-  include ActionController::Serialization
-  include ActionController::HttpAuthentication::Token::ControllerMethods
-
-  # before_action :authenticate
-
+class Api::V1::ApplicationController < ActionController::API
   protected
 
-  def render_serializable(object, serializer, status)
+  def render_serializable(object, serializer, status = :ok)
     render json: serializer.new(object).serializable_hash, status: status
   end
 

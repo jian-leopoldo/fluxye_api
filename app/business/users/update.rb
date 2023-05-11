@@ -1,14 +1,17 @@
-class User::UpdateUser
+class Users::Update
   include Dry::Transaction
 
   try :find, catch: ActiveRecord::RecordNotFound
   step :validate
   step :persist
 
+  User.where("roles @> '{#{['admin'].join(",")}}'").first
+  User.where("roles @> '{?}'", "#{['admin'].join(",")}").first
+
   private
 
-  def find(input)
-    user = User.find(input[:id])
+  def find(input:, id:)
+    user = User.find(id)
     { user: user, input: input }
   end
 

@@ -1,4 +1,4 @@
-class User::CreateUser
+class Users::Create
   include Dry::Transaction
 
   step :validate
@@ -7,11 +7,11 @@ class User::CreateUser
   private
 
   def validate(input)
-    user = User.new(input)
-    if user.valid?
-      Success(user)
+    result = Users::Contracts::NewUser.new.call(input)
+    if result.success?
+      Success(User.new(result.values))
     else
-      Failure(user.errors)
+      Failure(result.errors(full: true))
     end
   end
 

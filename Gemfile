@@ -57,6 +57,7 @@ group :development do
 end
 
 gem 'dry-transaction'
+gem 'dry-validation'
 
 gem "pundit", "~> 2.3"
 
