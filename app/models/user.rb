@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
 
-  scope :one_of, -> (roles) { roles ? where("roles @> ARRAY[?]::varchar[]", roles) : all }
+  scope :by_roles, -> (roles) { roles ? where("roles @> ?", "{#{roles.join(",")}}") : all }
+
+  def master?
+    roles.include?('master')
+  end
 
 end

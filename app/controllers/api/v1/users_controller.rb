@@ -1,6 +1,8 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
   def index
-    Users::ListAll.new.call(params[:q]) do |on|
+    # @current_user = User.by_roles(['master']).first
+    @current_user = User.first
+    Users::ListAll.new.call(current_user: @current_user,params: params[:q]) do |on|
       on.success { |users| render_serializable(users, UserSerializer, :ok) }
       on.failure { |errors| render json: { errors: errors }, status: :unprocessable_entity }
     end

@@ -9,7 +9,7 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    User.by_roles(['master']).include?(user)
   end
 
   def show?

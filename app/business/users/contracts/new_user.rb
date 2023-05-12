@@ -4,6 +4,13 @@ class Users::Contracts::NewUser < Dry::Validation::Contract
     required(:phone).filled(:string)
     required(:email).filled(:string)
     required(:password).filled(:string)
+    optional(:roles).array(:str?)
+  end
+
+  rule(:roles) do
+    if value.master?
+      key.failure('invalid role')
+    end
   end
 
   rule(:email) do

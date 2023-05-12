@@ -6,13 +6,23 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-100000.times do
+User.create(
+  name: 'admin',
+  email: 'admin@admin.com',
+  password: 'admin123',
+  phone: '',
+  document: '',
+  roles: ['master']
+)
+
+10.times do
   User.create(
     name: Faker::Name.name,
     email: Faker::Internet.email,
+    password: '123123123',
     phone: Faker::PhoneNumber.cell_phone,
     document: Faker::IDNumber.brazilian_citizen_number,
-    document_type: "CPF",
+    roles: []
   )
 end
 
