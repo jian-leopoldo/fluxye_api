@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'auth/login', to: 'auth#login'
       post 'auth/recover_password', to: 'auth#recover_password'
+      post 'auth/request_password_recovery', to: 'auth#request_password_recovery'
       post 'auth/logout', to: 'session#logout'
       resources :users
     end

@@ -6,8 +6,15 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
   end
 
-  def recover_password
-    Users::RecoverPassword.new.call(user_params.to_h) do |on|
+  def request_password_recovery
+    Users::GenerateRecoverToken.new.call(login_params.to_h) do |on|
+      on.success { |success_msg| render json: { message: success_msg } }
+      on.failure { |errors| render json: { errors: errors }, status: :unprocessable_entity }
+    end
+  end
+
+  def reset_password
+    Users::ResetPassword.new.call(login_params.to_h) do |on|
       on.success { |user| render_serializable(user, UserSerializer, :ok) }
       on.failure { |errors| render json: { errors: errors }, status: :unprocessable_entity }
     end
@@ -15,7 +22,7 @@ class Api::V1::AuthController < Api::V1::ApplicationController
 
 
   def logout
-    Users::Logout.new.call(user_params.to_h) do |on|
+    Users::Logout.new.call(login_params.to_h) do |on|
       on.success { |user| render_serializable(user, UserSerializer, :ok) }
       on.failure { |errors| render json: { errors: errors }, status: :unprocessable_entity }
     end
