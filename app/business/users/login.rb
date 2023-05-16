@@ -11,7 +11,7 @@ class Users::Login
     if user && user.authenticate(params[:password])
       Success(user)
     else
-      Failure('Invalid password')
+      Failure('Invalid password or email')
     end
   end
 

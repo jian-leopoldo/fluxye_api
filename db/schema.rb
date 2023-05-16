@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_232113) do
     t.string "phone"
     t.string "session_token"
     t.text "roles", default: [], array: true
+    t.string "member_from", default: "#system"
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -6,6 +6,7 @@ services:
     env_file:
       - .env
     build: .
+    command: sleep infinity
     ports:
       - "3000:3000"
     depends_on:
