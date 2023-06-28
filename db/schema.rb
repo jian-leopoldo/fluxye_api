@@ -10,10 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_232113) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_28_020813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "communities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "url"
+    t.string "hash"
+    t.bigint "community_group_id", null: false
+    t.string "primary_color"
+    t.string "secondary_color"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["community_group_id"], name: "index_communities_on_community_group_id"
+  end
+
+  create_table "community_groups", force: :cascade do |t|
+    t.string "name"
+    t.string "descritpion"
+    t.string "hash"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "community_id", null: false
+    t.text "roles", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["community_id"], name: "index_memberships_on_community_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
@@ -29,4 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_232113) do
     t.string "reset_password_token"
   end
 
+  add_foreign_key "communities", "community_groups"
+  add_foreign_key "memberships", "communities"
+  add_foreign_key "memberships", "users"
 end
