@@ -1,20 +1,14 @@
 class Community::Update
   include Dry::Transaction
 
-  try :find_community_group, catch: ActiveRecord::RecordNotFound
   try :find, catch: ActiveRecord::RecordNotFound
   step :validate
   step :persist
 
   private
 
-  def find_community_group(current_user:, community_group_id:, id:, input:)
-    community_group = current_user.community_groups.find(community_group_id)
-    { community_group: community_group, input: input, id: id}
-  end
-
-  def find(id:,community_group:, input:)
-    community = community_group.communities.find(id)
+  def find(id:,current_user:, input:)
+    community = current_user.communities.find(id)
     { community: community, input: input }
   end
 

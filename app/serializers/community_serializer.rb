@@ -1,5 +1,5 @@
 class CommunitySerializer
   include JSONAPI::Serializer
 
-  attributes :name, :description, :slug, :id
+  attributes :name, :description, :slug, :id, :channels
 end
