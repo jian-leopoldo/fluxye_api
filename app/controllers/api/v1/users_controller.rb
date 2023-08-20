@@ -16,7 +16,6 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def create
-    debugger
     Users::Create.new.call(user_params.to_h) do |on|
       on.success { |user| render_serializable(user, UserSerializer, :created) }
       on.failure { |errors| render json: { errors: errors }, status: :unprocessable_entity }

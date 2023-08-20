@@ -5,9 +5,6 @@ class Users::Update
   step :validate
   step :persist
 
-  User.where("roles @> '{#{['admin'].join(",")}}'").first
-  User.where("roles @> '{?}'", "#{['admin'].join(",")}").first
-
   private
 
   def find(input:, id:)

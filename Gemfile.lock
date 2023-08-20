@@ -131,6 +131,8 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
+    friendly_id (5.4.2)
+      activerecord (>= 4.0.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -244,6 +246,7 @@ DEPENDENCIES
   dry-validation
   factory_bot_rails
   faker
+  friendly_id (~> 5.4.0)
   jsonapi-serializer
   jwt (~> 2.7)
   pg (~> 1.1)
