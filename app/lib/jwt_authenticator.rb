@@ -1,8 +1,8 @@
 class JwtAuthenticator
   SECRET_KEY = Rails.application.secrets.secret_key_base
 
-  def initialize(headers = {})
-    @headers = headers
+  def initialize(token)
+    @token = token
   end
 
   def authenticate!
@@ -11,10 +11,9 @@ class JwtAuthenticator
 
   private
 
-  attr_reader :headers
+  attr_reader :token
 
   def user
-    # debugger
     @user ||= User.find(decoded_auth_token['user_id']) if decoded_auth_token
   rescue ActiveRecord::RecordNotFound => e
     raise(
@@ -28,7 +27,7 @@ class JwtAuthenticator
   end
 
   def http_auth_header
-    return headers['Authorization'].split(' ').last if headers['Authorization'].present?
+    return token.split(' ').last if token.present?
 
     raise(ExceptionHandler::MissingToken, Message.missing_token)
   end

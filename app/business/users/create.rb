@@ -7,6 +7,7 @@ class Users::Create
   private
 
   def validate(input)
+    debugger
     result = Users::Contracts::NewUser.new.call(input)
     if result.success?
       Success(User.new(result.values))

@@ -31,11 +31,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_28_020813) do
 
   create_table "community_groups", force: :cascade do |t|
     t.string "name"
-    t.string "descritpion"
-    t.string "hash"
+    t.string "description"
     t.string "slug"
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_community_groups_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -63,6 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_28_020813) do
   end
 
   add_foreign_key "communities", "community_groups"
+  add_foreign_key "community_groups", "users"
   add_foreign_key "memberships", "communities"
   add_foreign_key "memberships", "users"
 end

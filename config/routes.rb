@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       post 'auth/request_password_recovery', to: 'auth#request_password_recovery'
       post 'auth/logout', to: 'session#logout'
       resources :users
+      resources :communities
+      resources :community_groups
     end
   end
 end

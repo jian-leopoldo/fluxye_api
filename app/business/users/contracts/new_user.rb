@@ -8,7 +8,7 @@ class Users::Contracts::NewUser < Dry::Validation::Contract
   end
 
   rule(:roles) do
-    if value.master?
+    if value.include?('master')
       key.failure('invalid role')
     end
   end

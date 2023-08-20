@@ -10,13 +10,11 @@ class Api::V1::ApplicationController < ActionController::API
   end
 
   def authenticate_token
-    authenticate_with_http_token do |token, options|
-      @current_user = User.find_by(token: token)
-    end
+    @current_user = JwtAuthenticator.new(request.headers['Authorization']).authenticate!
+    @current_user
   end
 
   def render_unauthorized
-    self.headers['WWW-Authenticate'] = 'Token realm="Application"'
     render json: { error: 'Bad credentials' }, status: 401
   end
 end
